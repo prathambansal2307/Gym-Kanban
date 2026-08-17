@@ -8,6 +8,7 @@ function App() {
   const [planFilter, setPlanFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("expiry");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
     <div className="flex">
@@ -22,12 +23,15 @@ function App() {
           onStatusFilterChange={setStatusFilter}
           sortBy={sortBy}
           onSortByChange={setSortBy}
+          onAddClick={() => setIsAddModalOpen(true)}
         />
         <KanbanBoard
           searchTerm={searchTerm}
           planFilter={planFilter}
           statusFilter={statusFilter}
           sortBy={sortBy}
+          isAddModalOpen={isAddModalOpen}
+          onCloseAddModal={() => setIsAddModalOpen(false)}
         />
       </div>
     </div>

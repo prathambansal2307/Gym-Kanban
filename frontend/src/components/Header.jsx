@@ -7,6 +7,8 @@ function Header({
   onStatusFilterChange,
   sortBy,
   onSortByChange,
+  onAddClick,
+
 }) {
   return (
     <div className="bg-white border-b border-gray-200 px-6 py-4">
@@ -16,8 +18,11 @@ function Header({
           <p className="text-sm text-gray-500">Track and manage all paid gym subscribers</p>
         </div>
 
-        <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-          + Add Subscriber
+        <button
+          onClick={onAddClick}
+          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+        >
+        + Add Subscriber
         </button>
       </div>
 

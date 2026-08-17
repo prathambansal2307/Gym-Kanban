@@ -12,6 +12,7 @@ import SubscriberCard from "./SubscriberCard";
 import mockSubscribers from "../data/mockSubscribers";
 import { applyAutoStatus } from "../utils/statusUtils";
 import SubscriberDetailsPanel from "./SubscriberDetailsPanel";
+import AddSubscriberModal from "./AddSubscriberModal";
 
 const statusColumns = [
   { key: "new", title: "New / Paid" },
@@ -23,8 +24,15 @@ const statusColumns = [
   { key: "expired", title: "Expired" },
 ];
 
-function KanbanBoard({ searchTerm, planFilter, statusFilter, sortBy }) {
-  const [subscribers, setSubscribers] = useState(() =>
+function KanbanBoard({
+  searchTerm,
+  planFilter,
+  statusFilter,
+  sortBy,
+  isAddModalOpen,
+  onCloseAddModal,
+}) {
+    const [subscribers, setSubscribers] = useState(() =>
     applyAutoStatus(mockSubscribers)
   );
   const [activeSubscriber, setActiveSubscriber] = useState(null);
@@ -36,6 +44,11 @@ function KanbanBoard({ searchTerm, planFilter, statusFilter, sortBy }) {
       activationConstraint: { distance: 5 },
     })
   );
+
+  function handleAddSubscriber(newSubscriber) {
+  setSubscribers((prev) => [...prev, newSubscriber]);
+  onCloseAddModal();
+}
 
   function handleView(subscriber) {
   setSelectedSubscriberId(subscriber._id);
@@ -147,6 +160,12 @@ function handleSaveStatus() {
         </div>
       ) : null}
     </DragOverlay>
+    {isAddModalOpen && (
+    <AddSubscriberModal
+    onAdd={handleAddSubscriber}
+    onClose={onCloseAddModal}
+  />
+)}
   </DndContext>
 );
 }
