@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { getPlans } from "../services/planService";
+
 function Header({
   searchTerm,
   onSearchChange,
@@ -10,6 +13,14 @@ function Header({
   onAddClick,
 
 }) {
+    const [plans, setPlans] = useState([]);
+
+      useEffect(() => {
+      getPlans()
+      .then(setPlans)
+      .catch(() => setPlans([]));
+    }, []);
+
   return (
     <div className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between mb-4">
@@ -41,9 +52,11 @@ function Header({
           className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="all">All Plans</option>
-          <option value="Basic Plan">Basic Plan</option>
-          <option value="Gold Plan">Gold Plan</option>
-          <option value="Premium Plan">Premium Plan</option>
+            {plans.map((plan) => (
+              <option key={plan._id} value={plan.name}>
+              {plan.name}
+              </option>
+            ))}
         </select>
 
         <select

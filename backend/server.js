@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import subscriberRoutes from './routes/subscriberRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import planRoutes from './routes/planRoutes.js';
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/subscribers', subscriberRoutes);
+app.use('/api/subscribers', subscriberRoutes);
+app.use('/api/plans', planRoutes);
 
 app.get('/', (req, res) => {
   res.send('Gym Kanban API is running...');

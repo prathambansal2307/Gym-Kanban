@@ -1,0 +1,37 @@
+import { useState } from "react";
+import Header from "../components/Header";
+import KanbanBoard from "../components/KanbanBoard";
+
+function DashboardPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [planFilter, setPlanFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("expiry");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  return (
+    <>
+      <Header
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        planFilter={planFilter}
+        onPlanFilterChange={setPlanFilter}
+        statusFilter={statusFilter}
+        onStatusFilterChange={setStatusFilter}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
+        onAddClick={() => setIsAddModalOpen(true)}
+      />
+      <KanbanBoard
+        searchTerm={searchTerm}
+        planFilter={planFilter}
+        statusFilter={statusFilter}
+        sortBy={sortBy}
+        isAddModalOpen={isAddModalOpen}
+        onCloseAddModal={() => setIsAddModalOpen(false)}
+      />
+    </>
+  );
+}
+
+export default DashboardPage;

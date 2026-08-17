@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPlans } from "../services/planService";
 
 const initialFormState = {
   name: "",
   email: "",
   phone: "",
-  membershipPlan: "Basic Plan",
+  membershipPlan: "",
   startDate: "",
   expiryDate: "",
   trainer: "",
@@ -14,6 +15,14 @@ const initialFormState = {
 function AddSubscriberModal({ onAdd, onClose }) {
   const [formData, setFormData] = useState(initialFormState);
   const [error, setError] = useState("");
+
+  const [plans, setPlans] = useState([]);
+
+useEffect(() => {
+  getPlans()
+    .then(setPlans)
+    .catch(() => setPlans([]));
+}, []);
 
   function handleChange(field, value) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -99,13 +108,16 @@ function AddSubscriberModal({ onAdd, onClose }) {
           <div>
             <label className="text-xs text-gray-500">Membership Plan *</label>
             <select
-              value={formData.membershipPlan}
-              onChange={(e) => handleChange("membershipPlan", e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={formData.membershipPlan}
+                onChange={(e) => handleChange("membershipPlan", e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="Basic Plan">Basic Plan</option>
-              <option value="Gold Plan">Gold Plan</option>
-              <option value="Premium Plan">Premium Plan</option>
+                <option value="">Select a plan</option>
+                {plans.map((plan) => (
+                <option key={plan._id} value={plan.name}>
+                {plan.name} (₹{plan.price})
+                </option>
+                ))}
             </select>
           </div>
 

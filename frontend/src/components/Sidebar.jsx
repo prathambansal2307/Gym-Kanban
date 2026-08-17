@@ -1,56 +1,66 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const navItems = [
-  { name: "Dashboard", icon: "🏠", active: true },
-  { name: "Subscribers", icon: "👥", active: false },
-  { name: "Plans", icon: "📋", active: false },
-  { name: "Payments", icon: "💳", active: false },
-  { name: "Attendance", icon: "📅", active: false },
-  { name: "Trainers", icon: "🧑‍🏫", active: false },
-  { name: "Reports", icon: "📊", active: false },
-  { name: "Settings", icon: "⚙️", active: false },
+  { name: "Dashboard", icon: "🏠", path: "/", ready: true },
+  { name: "Subscribers", icon: "👥", path: "/", ready: true },
+  { name: "Plans", icon: "📋", path: "/plans", ready: true },
+  { name: "Payments", icon: "💳", path: "/payments", ready: false },
+  { name: "Attendance", icon: "📅", path: "/attendance", ready: false },
+  { name: "Trainers", icon: "🧑‍🏫", path: "/trainers", ready: false },
+  { name: "Reports", icon: "📊", path: "/reports", ready: false },
+  { name: "Settings", icon: "⚙️", path: "/settings", ready: false },
 ];
 
 function Sidebar() {
   const [comingSoonMessage, setComingSoonMessage] = useState("");
 
-  const handleNavClick = (item) => {
-    if (item.name === "Dashboard") return;
-
+  const handleComingSoonClick = (item) => {
     setComingSoonMessage(`${item.name} is coming soon 🚧`);
-
-    setTimeout(() => {
-      setComingSoonMessage("");
-    }, 2000);
+    setTimeout(() => setComingSoonMessage(""), 2000);
   };
 
   return (
-    <div className="w-56 bg-white border-r border-gray-200 h-screen flex flex-col">
+    <div className="w-56 bg-white border-r border-gray-200 h-screen flex flex-col relative">
       <div className="px-4 py-5 flex items-center gap-2 border-b border-gray-200">
         <span className="text-xl">↔️</span>
         <span className="font-semibold text-gray-800">GYM MANAGEMENT</span>
       </div>
 
       <nav className="flex-1 px-2 py-4 space-y-1">
-        {navItems.map((item) => (
-          <button
-            key={item.name}
-            onClick={() => handleNavClick(item)}
-            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              item.active
-                ? "bg-blue-50 text-blue-600"
-                : "text-gray-600 hover:bg-gray-100"
-            }`}
-          >
-            <span>{item.icon}</span>
-            <span>{item.name}</span>
-          </button>
-        ))}
+        {navItems.map((item) =>
+          item.ready ? (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              end={item.path === "/"}
+              className={({ isActive }) =>
+                `w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`
+              }
+            >
+              <span>{item.icon}</span>
+              <span>{item.name}</span>
+            </NavLink>
+          ) : (
+            <button
+              key={item.name}
+              onClick={() => handleComingSoonClick(item)}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100"
+            >
+              <span>{item.icon}</span>
+              <span>{item.name}</span>
+            </button>
+          )
+        )}
       </nav>
 
       <div className="px-2 py-4 border-t border-gray-200">
         <button
-          onClick={() => handleNavClick({ name: "Logout" })}
+          onClick={() => handleComingSoonClick({ name: "Logout" })}
           className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100"
         >
           <span>🚪</span>
