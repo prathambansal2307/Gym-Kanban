@@ -7,6 +7,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import planRoutes from './routes/planRoutes.js';
 import trainerRoutes from './routes/trainerRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import attendanceRoutes from './routes/attendanceRoutes.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use('/api/subscribers', subscriberRoutes);
 app.use('/api/plans', planRoutes);
 app.use('/api/trainers', trainerRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 app.get('/', (req, res) => {
   res.send('Gym Kanban API is running...');

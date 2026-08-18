@@ -1,10 +1,21 @@
 import Attendance from '../models/Attendance.js';
 
-// @desc    Get all attendance records (with subscriber details populated)
-// @route   GET /api/attendance
+function normalizeDate(dateString) {
+  return new Date(dateString);
+}
+
+// @desc    Get attendance, optionally filtered by date + session
+// @route   GET /api/attendance?date=YYYY-MM-DD&session=morning
 export const getAttendance = async (req, res) => {
   try {
-    const records = await Attendance.find()
+    const filter = {};
+
+    if (req.query.date && req.query.session) {
+      filter.checkInDate = normalizeDate(req.query.date);
+      filter.session = req.query.session;
+    }
+
+    const records = await Attendance.find(filter)
       .populate('subscriber', 'name email')
       .sort({ checkInDate: -1 });
 
@@ -14,13 +25,41 @@ export const getAttendance = async (req, res) => {
   }
 };
 
-// @desc    Create a new attendance record (check-in)
-// @route   POST /api/attendance
-export const createAttendance = async (req, res) => {
+// @desc    Mark attendance for multiple subscribers at once
+// @route   POST /api/attendance/bulk
+export const bulkCreateAttendance = async (req, res) => {
   try {
-    const record = await Attendance.create(req.body);
-    const populatedRecord = await record.populate('subscriber', 'name email');
-    res.status(201).json(populatedRecord);
+    const { date, session, subscriberIds } = req.body;
+
+    if (!date || !session || !Array.isArray(subscriberIds)) {
+      return res
+        .status(400)
+        .json({ message: 'date, session, and subscriberIds are required.' });
+    }
+
+    const checkInDate = normalizeDate(date);
+    const created = [];
+    const skipped = [];
+
+    for (const subscriberId of subscriberIds) {
+      try {
+        const record = await Attendance.create({
+          subscriber: subscriberId,
+          checkInDate,
+          session,
+        });
+        const populated = await record.populate('subscriber', 'name email');
+        created.push(populated);
+      } catch (error) {
+        if (error.code === 11000) {
+          skipped.push(subscriberId);
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    res.status(201).json({ created, skipped });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
