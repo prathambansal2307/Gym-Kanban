@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getPlans } from "../services/planService";
+import { getTrainers } from "../services/trainerService";
 
 const initialFormState = {
   name: "",
@@ -17,43 +18,47 @@ function AddSubscriberModal({ onAdd, onClose }) {
   const [error, setError] = useState("");
 
   const [plans, setPlans] = useState([]);
-
-useEffect(() => {
-  getPlans()
+  useEffect(() => {
+    getPlans()
     .then(setPlans)
     .catch(() => setPlans([]));
+}, []);
+
+const [trainers, setTrainers] = useState([]);
+  useEffect(() => {
+    getTrainers()
+    .then(setTrainers)
+    .catch(() => setTrainers([]));
 }, []);
 
   function handleChange(field, value) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(e) {
+  e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.membershipPlan) {
-      setError("Name, email, and membership plan are required.");
-      return;
-    }
-
-    if (!formData.startDate || !formData.expiryDate) {
-      setError("Start date and expiry date are required.");
-      return;
-    }
-
-    if (new Date(formData.expiryDate) <= new Date(formData.startDate)) {
-      setError("Expiry date must be after the start date.");
-      return;
-    }
-
-    const newSubscriber = {
-      _id: crypto.randomUUID(),
-      ...formData,
-      status: "new",
-    };
-
-    onAdd(newSubscriber);
+  if (!formData.name || !formData.email || !formData.membershipPlan) {
+    setError("Name, email, and membership plan are required.");
+    return;
   }
+
+  if (!formData.startDate || !formData.expiryDate) {
+    setError("Start date and expiry date are required.");
+    return;
+  }
+
+  if (new Date(formData.expiryDate) <= new Date(formData.startDate)) {
+    setError("Expiry date must be after the start date.");
+    return;
+  }
+
+  try {
+    await onAdd(formData);
+  } catch (err) {
+    setError("Failed to add subscriber. Please try again.");
+  }
+}
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
@@ -144,14 +149,20 @@ useEffect(() => {
           </div>
 
           <div>
-            <label className="text-xs text-gray-500">Trainer</label>
-            <input
-              type="text"
+              <label className="text-xs text-gray-500">Trainer</label>
+              <select
               value={formData.trainer}
               onChange={(e) => handleChange("trainer", e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+              >
+                <option value="">No trainer assigned</option>
+                {trainers.map((trainer) => (
+                <option key={trainer._id} value={trainer.name}>
+                {trainer.name} {trainer.specialty ? `(${trainer.specialty})` : ""}
+                </option>
+                ))}
+              </select>
+            </div>
 
           <div>
             <label className="text-xs text-gray-500">Notes</label>

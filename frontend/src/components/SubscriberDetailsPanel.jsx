@@ -1,4 +1,4 @@
-import { getDaysRemaining } from "../utils/statusUtils";
+import { getDaysRemaining, formatDate } from "../utils/statusUtils";
 
 const statusOptions = [
   { key: "new", label: "New / Paid" },
@@ -16,11 +16,19 @@ function SubscriberDetailsPanel({
   onStatusChange,
   onSave,
   onClose,
+  onDelete,
+
 }) {
   if (!subscriber) return null;
 
   const daysRemaining = getDaysRemaining(subscriber.expiryDate);
   const hasChanges = pendingStatus !== subscriber.status;
+
+  function handleDeleteClick() {
+  if (window.confirm(`Delete ${subscriber.name}? This cannot be undone.`)) {
+    onDelete(subscriber._id);
+  }
+}
 
   return (
     <div className="w-80 flex-shrink-0 bg-white border-l border-gray-200 h-[calc(100vh-140px)] overflow-y-auto p-5">
@@ -52,14 +60,14 @@ function SubscriberDetailsPanel({
           <p className="text-gray-800">{subscriber.membershipPlan}</p>
         </div>
 
-        <div>
+       <div>
           <p className="text-gray-400 text-xs">Start Date</p>
-          <p className="text-gray-800">{subscriber.startDate}</p>
+          <p className="text-gray-800">{formatDate(subscriber.startDate)}</p>
         </div>
 
         <div>
           <p className="text-gray-400 text-xs">Expiry Date</p>
-          <p className="text-gray-800">{subscriber.expiryDate}</p>
+          <p className="text-gray-800">{formatDate(subscriber.expiryDate)}</p>
         </div>
 
         <div>
@@ -123,6 +131,12 @@ function SubscriberDetailsPanel({
           className="w-full text-sm font-medium py-2 mt-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50"
         >
           Close
+        </button>
+        <button
+          onClick={handleDeleteClick}
+          className="w-full text-sm font-medium py-2 mt-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
+        >
+         Delete Subscriber
         </button>
       </div>
     </div>

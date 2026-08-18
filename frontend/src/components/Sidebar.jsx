@@ -5,9 +5,9 @@ const navItems = [
   { name: "Dashboard", icon: "🏠", path: "/", ready: true },
   { name: "Subscribers", icon: "👥", path: "/", ready: true },
   { name: "Plans", icon: "📋", path: "/plans", ready: true },
-  { name: "Payments", icon: "💳", path: "/payments", ready: false },
+  { name: "Payments", icon: "💳", path: "/payments", ready: true },
   { name: "Attendance", icon: "📅", path: "/attendance", ready: false },
-  { name: "Trainers", icon: "🧑‍🏫", path: "/trainers", ready: false },
+  { name: "Trainers", icon: "🧑‍🏫", path: "/trainers", ready: true },
   { name: "Reports", icon: "📊", path: "/reports", ready: false },
   { name: "Settings", icon: "⚙️", path: "/settings", ready: false },
 ];

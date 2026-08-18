@@ -1,6 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { getDaysRemaining } from "../utils/statusUtils";
+import { getDaysRemaining, formatDate } from "../utils/statusUtils";
 
 function SubscriberCard({ subscriber, onView }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } =
@@ -36,8 +36,8 @@ function SubscriberCard({ subscriber, onView }) {
       </div>
 
       <div className="text-xs text-gray-500 space-y-0.5">
-        <p>Start: {subscriber.startDate}</p>
-        <p>Expiry: {subscriber.expiryDate}</p>
+          <p>Start: {formatDate(subscriber.startDate)}</p>
+          <p>Expiry: {formatDate(subscriber.expiryDate)}</p>
       </div>
 
       {isExpired && (
