@@ -12,6 +12,7 @@ import {
   UserRoundCog,
   Users,
 } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/", ready: true },
@@ -21,11 +22,13 @@ const navItems = [
   { name: "Attendance", icon: CalendarCheck, path: "/attendance", ready: true },
   { name: "Trainers", icon: UserRoundCog, path: "/trainers", ready: true },
   { name: "Reports", icon: BarChart3, path: "/reports", ready: true },
-  { name: "Settings", icon: Settings, path: "/settings", ready: false },
+  { name: "Settings", icon: Settings, path: "/settings", ready: true },
 ];
 
 function Sidebar() {
   const [comingSoonMessage, setComingSoonMessage] = useState("");
+  const { logout } = useAuth();
+
 
   const handleComingSoonClick = (item) => {
     setComingSoonMessage(`${item.name} is coming soon 🚧`);
@@ -74,8 +77,8 @@ function Sidebar() {
 
       <div className="px-2 py-4 border-t border-gray-200">
         <button
-          onClick={() => handleComingSoonClick({ name: "Logout" })}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100"
+        onClick={logout}
+        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100"
         >
           <LogOut size={18} strokeWidth={2} />
           <span>Logout</span>

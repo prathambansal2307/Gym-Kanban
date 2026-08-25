@@ -4,11 +4,13 @@ import {
   bulkCreateAttendance,
   deleteAttendance,
 } from '../controllers/attendanceController.js';
+import { protect } from '../middleware/authMiddleware.js';
+
 
 const router = express.Router();
 
-router.get('/', getAttendance);
-router.post('/bulk', bulkCreateAttendance);
-router.delete('/:id', deleteAttendance);
+router.get('/', protect, getAttendance);
+router.post('/bulk', protect, bulkCreateAttendance);
+router.delete('/:id', protect, deleteAttendance);
 
 export default router;

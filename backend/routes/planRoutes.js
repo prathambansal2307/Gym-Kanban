@@ -5,12 +5,13 @@ import {
   updatePlan,
   deletePlan,
 } from '../controllers/planController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', getPlans);
-router.post('/', createPlan);
-router.put('/:id', updatePlan);
-router.delete('/:id', deletePlan);
+router.get('/', protect, getPlans);
+router.post('/', protect, createPlan);
+router.put('/:id', protect, updatePlan);
+router.delete('/:id', protect, deletePlan);
 
 export default router;

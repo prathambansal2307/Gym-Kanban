@@ -8,6 +8,8 @@ import planRoutes from './routes/planRoutes.js';
 import trainerRoutes from './routes/trainerRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import attendanceRoutes from './routes/attendanceRoutes.js';
+import settingsRoutes from './routes/settingsRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -23,6 +25,9 @@ app.use('/api/plans', planRoutes);
 app.use('/api/trainers', trainerRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/auth', authRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Gym Kanban API is running...');
