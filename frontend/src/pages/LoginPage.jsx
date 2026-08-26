@@ -27,8 +27,14 @@ function LoginPage() {
       login(data.token, data.email);
       navigate("/");
     } catch (err) {
-      setError("Invalid email or password.");
-    } finally {
+  if (err.response?.status === 401) {
+    setError("Invalid email or password.");
+  } else if (!err.response) {
+    setError("Can't reach the server — it may be waking up from idle. Please wait a moment and try again.");
+  } else {
+    setError("Something went wrong. Please try again.");
+  }
+  } finally {
       setSubmitting(false);
     }
   }

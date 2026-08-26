@@ -17,7 +17,9 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://gym-kanban.vercel.app",
+}));
 app.use(express.json());
 app.use('/api/subscribers', subscriberRoutes);
 app.use('/api/subscribers', subscriberRoutes);
