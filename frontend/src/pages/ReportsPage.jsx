@@ -102,7 +102,6 @@ function ReportsPage() {
     );
   }
 
-  // --- Subscribers by status ---
   const statusCounts = subscribers.reduce((counts, subscriber) => {
     counts[subscriber.status] = (counts[subscriber.status] || 0) + 1;
     return counts;
@@ -115,7 +114,6 @@ function ReportsPage() {
     (statusCounts.renewaldue || 0) +
     (statusCounts.expired || 0);
 
-  // --- Revenue ---
   const totalRevenue = payments.reduce((sum, p) => sum + p.amount, 0);
 
   const revenueByPlan = payments.reduce((totals, payment) => {
@@ -127,7 +125,6 @@ function ReportsPage() {
 
   const recentPayments = payments.slice(0, 5);
 
-  // --- Today's attendance ---
   const today = todayString();
   const todaysAttendance = attendance.filter(
     (record) => record.checkInDate.split("T")[0] === today

@@ -23,8 +23,7 @@ function Header({
 
   return (
     <div className="bg-white border-b border-gray-200 px-6 py-4">
-      <div className="flex items-center justify-between mb-4">
-        <div>
+    <div className="flex flex-wrap items-center justify-between gap-3 mb-4">        <div>
           <h1 className="text-xl font-bold text-gray-800">Paid Gym Subscribers</h1>
           <p className="text-sm text-gray-500">Track and manage all paid gym subscribers</p>
         </div>
@@ -37,14 +36,13 @@ function Header({
         </button>
       </div>
 
-      <div className="flex items-center gap-3">
-        <input
+      <div className="flex flex-wrap items-center gap-3">        
+          <input
           type="text"
           placeholder="Search subscribers..."
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="flex-1 max-w-xs border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          className="flex-1 min-w-[180px] max-w-xs border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"        />
 
         <select
           value={planFilter}

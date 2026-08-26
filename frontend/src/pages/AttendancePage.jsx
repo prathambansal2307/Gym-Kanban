@@ -69,7 +69,7 @@ function AttendancePage() {
   }
 
   function toggleSubscriber(id) {
-    if (alreadyMarkedIds.has(id)) return; // already marked, can't toggle
+    if (alreadyMarkedIds.has(id)) return;
 
     setCheckedIds((prev) => {
       const next = new Set(prev);
