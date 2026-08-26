@@ -10,8 +10,6 @@ async function getOrCreateSettings() {
   return settings;
 }
 
-// @desc    Get gym settings (creates default if none exist)
-// @route   GET /api/settings
 export const getSettings = async (req, res) => {
   try {
     const settings = await getOrCreateSettings();
@@ -21,8 +19,6 @@ export const getSettings = async (req, res) => {
   }
 };
 
-// @desc    Update gym settings
-// @route   PUT /api/settings
 export const updateSettings = async (req, res) => {
   try {
     const settings = await getOrCreateSettings();

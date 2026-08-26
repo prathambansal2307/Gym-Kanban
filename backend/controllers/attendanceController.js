@@ -4,8 +4,6 @@ function normalizeDate(dateString) {
   return new Date(dateString);
 }
 
-// @desc    Get attendance, optionally filtered by date + session
-// @route   GET /api/attendance?date=YYYY-MM-DD&session=morning
 export const getAttendance = async (req, res) => {
   try {
     const filter = {};
@@ -25,8 +23,6 @@ export const getAttendance = async (req, res) => {
   }
 };
 
-// @desc    Mark attendance for multiple subscribers at once
-// @route   POST /api/attendance/bulk
 export const bulkCreateAttendance = async (req, res) => {
   try {
     const { date, session, subscriberIds } = req.body;
@@ -65,8 +61,6 @@ export const bulkCreateAttendance = async (req, res) => {
   }
 };
 
-// @desc    Delete an attendance record
-// @route   DELETE /api/attendance/:id
 export const deleteAttendance = async (req, res) => {
   try {
     const record = await Attendance.findByIdAndDelete(req.params.id);

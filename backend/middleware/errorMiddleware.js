@@ -1,4 +1,3 @@
-// Handles requests to routes that dont exist
 export const notFound = (req, res, next) => {
   const error = new Error(`Route not found - ${req.originalUrl}`);
   res.status(404);

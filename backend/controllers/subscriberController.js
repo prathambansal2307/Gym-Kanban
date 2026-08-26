@@ -1,7 +1,5 @@
 import Subscriber from '../models/Subscriber.js';
 
-//Get all subscribers
-//GET /api/subscribers
 export const getSubscribers = async (req, res) => {
   try {
     const subscribers = await Subscriber.find();
@@ -11,8 +9,6 @@ export const getSubscribers = async (req, res) => {
   }
 };
 
-//Get a single subscriber by ID
-//GET /api/subscribers/:id
 export const getSubscriberById = async (req, res) => {
   try {
     const subscriber = await Subscriber.findById(req.params.id);
@@ -27,8 +23,6 @@ export const getSubscriberById = async (req, res) => {
   }
 };
 
-// Create a new subscriber
-// POST /api/subscribers
 export const createSubscriber = async (req, res) => {
   try {
     const subscriber = await Subscriber.create(req.body);
@@ -38,8 +32,6 @@ export const createSubscriber = async (req, res) => {
   }
 };
 
-//Update an existing subscriber
-//PUT /api/subscribers/:id
 export const updateSubscriber = async (req, res) => {
   try {
     const subscriber = await Subscriber.findByIdAndUpdate(
@@ -58,8 +50,6 @@ export const updateSubscriber = async (req, res) => {
   }
 };
 
-// Delete a subscriber
-// DELETE /api/subscribers/:id
 export const deleteSubscriber = async (req, res) => {
   try {
     const subscriber = await Subscriber.findByIdAndDelete(req.params.id);
@@ -74,8 +64,6 @@ export const deleteSubscriber = async (req, res) => {
   }
 };
 
-//Update only the status of a subscriber (used for Kanban drag-and-drop)
-//PATCH /api/subscribers/:id/status
 export const updateSubscriberStatus = async (req, res) => {
   try {
     const { status } = req.body;

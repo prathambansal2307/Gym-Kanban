@@ -7,8 +7,6 @@ function generateToken(adminId) {
   });
 }
 
-// @desc    One-time setup: create the single admin account
-// @route   POST /api/auth/setup
 export const setupAdmin = async (req, res) => {
   try {
     const existingAdmin = await Admin.findOne();
@@ -36,8 +34,6 @@ export const setupAdmin = async (req, res) => {
   }
 };
 
-// @desc    Log in
-// @route   POST /api/auth/login
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -61,8 +57,6 @@ export const login = async (req, res) => {
   }
 };
 
-// @desc    Get current logged-in admin
-// @route   GET /api/auth/me
 export const getMe = async (req, res) => {
   res.status(200).json({ email: req.admin.email });
 };

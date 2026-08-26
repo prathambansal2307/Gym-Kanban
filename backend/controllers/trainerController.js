@@ -1,7 +1,5 @@
 import Trainer from '../models/Trainer.js';
 
-// @desc    Get all trainers
-// @route   GET /api/trainers
 export const getTrainers = async (req, res) => {
   try {
     const trainers = await Trainer.find();
@@ -11,8 +9,6 @@ export const getTrainers = async (req, res) => {
   }
 };
 
-// @desc    Create a new trainer
-// @route   POST /api/trainers
 export const createTrainer = async (req, res) => {
   try {
     const trainer = await Trainer.create(req.body);
@@ -22,8 +18,6 @@ export const createTrainer = async (req, res) => {
   }
 };
 
-// @desc    Update a trainer
-// @route   PUT /api/trainers/:id
 export const updateTrainer = async (req, res) => {
   try {
     const trainer = await Trainer.findByIdAndUpdate(req.params.id, req.body, {
@@ -41,8 +35,6 @@ export const updateTrainer = async (req, res) => {
   }
 };
 
-// @desc    Delete a trainer
-// @route   DELETE /api/trainers/:id
 export const deleteTrainer = async (req, res) => {
   try {
     const trainer = await Trainer.findByIdAndDelete(req.params.id);

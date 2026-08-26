@@ -1,7 +1,5 @@
 import Plan from '../models/Plan.js';
 
-// @desc    Get all plans
-// @route   GET /api/plans
 export const getPlans = async (req, res) => {
   try {
     const plans = await Plan.find();
@@ -11,8 +9,6 @@ export const getPlans = async (req, res) => {
   }
 };
 
-// @desc    Create a new plan
-// @route   POST /api/plans
 export const createPlan = async (req, res) => {
   try {
     const plan = await Plan.create(req.body);
@@ -22,8 +18,6 @@ export const createPlan = async (req, res) => {
   }
 };
 
-// @desc    Update a plan
-// @route   PUT /api/plans/:id
 export const updatePlan = async (req, res) => {
   try {
     const plan = await Plan.findByIdAndUpdate(req.params.id, req.body, {
@@ -41,8 +35,6 @@ export const updatePlan = async (req, res) => {
   }
 };
 
-// @desc    Delete a plan
-// @route   DELETE /api/plans/:id
 export const deletePlan = async (req, res) => {
   try {
     const plan = await Plan.findByIdAndDelete(req.params.id);

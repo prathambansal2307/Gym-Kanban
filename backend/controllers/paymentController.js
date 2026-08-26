@@ -1,7 +1,5 @@
 import Payment from '../models/Payment.js';
 
-// @desc    Get all payments (with subscriber details populated)
-// @route   GET /api/payments
 export const getPayments = async (req, res) => {
   try {
     const payments = await Payment.find()
@@ -14,8 +12,6 @@ export const getPayments = async (req, res) => {
   }
 };
 
-// @desc    Create a new payment
-// @route   POST /api/payments
 export const createPayment = async (req, res) => {
   try {
     const payment = await Payment.create(req.body);
@@ -26,8 +22,6 @@ export const createPayment = async (req, res) => {
   }
 };
 
-// @desc    Delete a payment
-// @route   DELETE /api/payments/:id
 export const deletePayment = async (req, res) => {
   try {
     const payment = await Payment.findByIdAndDelete(req.params.id);
