@@ -1,6 +1,30 @@
 # Gym Management System
 
 A full-stack Kanban-based gym subscriber management system built with the MERN stack (MongoDB, Express, React, Node.js).
+Live Demo: https://gym-kanban.vercel.app/
+
+### Kanban Lifecycle
+
+Subscribers move through seven membership stages:
+
+1. New / Paid
+2. Onboarding
+3. Active
+4. On Hold / Frozen
+5. Expiring Soon
+6. Renewal Due
+7. Expired
+
+ ## Project Overview
+
+The original project requirement was to develop a Kanban-style
+view for managing paid gym subscribers across their membership
+lifecycle.
+
+This implementation extends that requirement into a complete
+gym management system with subscriber management, membership
+plans, trainers, payments, attendance, reports, settings, and
+authentication.
 
 ## Features
 
@@ -99,7 +123,16 @@ This endpoint can only be used once. After that, log in normally through the app
 
 All routes except `/api/auth/login` and `/api/auth/setup` require a valid JWT (sent as `Authorization: Bearer <token>`).
 
-## Notes
 
-- Membership statuses "Expiring Soon" and "Expired" are automatically assigned based on expiry date for subscribers still in an early lifecycle stage (New/Onboarding/Active/On Hold); staff can freely move subscribers once they reach Expiring Soon/Renewal Due/Expired.
-- Deleting a subscriber does not delete their historical Payment/Attendance records — those remain for record-keeping, shown with a "Deleted subscriber" label.
+## Key Design Decisions
+
+- **Auto vs. manual status:** "Expiring Soon" and "Expired" are calculated automatically from expiry date *only* while a subscriber is still in an early stage (New / Onboarding / Active / On Hold). Once a subscriber reaches Expiring Soon, Renewal Due, or Expired, staff have full manual control via drag-and-drop — the system won't fight their decisions.
+- **Soft references on delete:** Deleting a subscriber does not delete their historical Payment/Attendance records. Those remain for record-keeping, displayed with a "Deleted subscriber" label, matching real-world audit-trail expectations.
+- **Days Remaining is computed, not stored:** calculated live from `expiryDate` on every render, so it's always accurate without needing background jobs to keep it in sync.
+
+## Known Limitations
+
+- **Single shared admin account:** there's no per-user data isolation — anyone with the login sees and edits the same live data. Suitable for a small gym's single front-desk workflow, not multi-branch/multi-staff separation.
+- **No real-time sync:** changes made by one logged-in session aren't pushed live to another open session; a refresh or navigation is needed to see updates made elsewhere.
+- **Free-tier hosting:** the backend (Render free tier) spins down after ~15 minutes of inactivity, causing a one-time delay on the next request.
+
